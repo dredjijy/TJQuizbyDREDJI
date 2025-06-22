@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Biblique TJ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #800000;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .question, .feedback, .final-score {
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .choices button {
+      width: 80%;
+      background-color: white;
+      color: #800000;
+    }
+    .feedback-good {
+      background-color: green;
+    }
+    .feedback-bad {
+      background-color: red;
+    }
+    .share-buttons a {
+      display: inline-block;
+      margin: 5px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Biblique</h1>
+  <div id="quiz-box">
+    <div id="question" class="question"></div>
+    <div id="choices" class="choices"></div>
+  </div>
+  <div id="feedback" class="feedback"></div>
+  <div id="result" class="final-score"></div>
+  <div id="share" class="share-buttons"></div>
+  <button onclick="window.location.href='index.html'">Retour au menu</button>
+  <div style="margin-top: 20px; font-style: italic;">par Dredji</div>
+
+  <script>
+    const questions = [
+      { question: "Qui a construit l'arche ?", answers: ["Moïse", "Abraham", "Noé", "David"], correct: "Noé" },
+      { question: "Combien y a-t-il de livres dans la Bible ?", answers: ["66", "72", "70", "60"], correct: "66" },
+      { question: "Quel est le premier livre de la Bible ?", answers: ["Genèse", "Exode", "Jean", "Matthieu"], correct: "Genèse" }
+    ];
+
+    let current = 0;
+    let score = 0;
+    const total = 3;
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById('question').innerText = q.question;
+      const choices = document.getElementById('choices');
+      choices.innerHTML = '';
+      q.answers.forEach(ans => {
+        const btn = document.createElement('button');
+        btn.innerText = ans;
+        btn.onclick = () => checkAnswer(ans);
+        choices.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const feedback = document.getElementById('feedback');
+      const correct = questions[current].correct;
+      if (selected === correct) {
+        feedback.innerText = "Bonne réponse ! 🎉";
+        feedback.className = "feedback feedback-good";
+        score++;
+      } else {
+        feedback.innerText = "Mauvaise réponse. La bonne réponse était : " + correct;
+        feedback.className = "feedback feedback-bad";
+      }
+      setTimeout(() => {
+        feedback.innerText = "";
+        current++;
+        if (current < total) {
+          showQuestion();
+        } else {
+          showFinal();
+        }
+      }, 2000);
+    }
+
+    function showFinal() {
+      document.getElementById('quiz-box').style.display = 'none';
+      const result = document.getElementById('result');
+      result.innerText = `🎯 Quiz terminé ! Ton score : ${score}/${total}`;
+
+      const shareText = encodeURIComponent(`🎉 J’ai fait un score de ${score}/${total} sur le quiz biblique TJ by Dredji ! Essaie toi aussi 👉 https://dredjijy.github.io/TjquizbyDredji/`);
+      document.getElementById('share').innerHTML = `
+        <p>Partager ton score :</p>
+        <a href="https://wa.me/?text=${shareText}" target="_blank">📱 WhatsApp</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://dredjijy.github.io/TjquizbyDredji/&quote=${shareText}" target="_blank">📘 Facebook</a>
+        <a href="https://twitter.com/intent/tweet?text=${shareText}" target="_blank">🐦 Twitter</a>
+      `;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>

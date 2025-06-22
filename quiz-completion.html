@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complète la phrase</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #800000;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .question, .feedback, .final-score {
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .choices button {
+      width: 80%;
+      background-color: white;
+      color: #800000;
+    }
+    .feedback-good {
+      background-color: green;
+    }
+    .feedback-bad {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Complète la phrase</h1>
+  <div id="quiz-box">
+    <div id="question" class="question"></div>
+    <div id="choices" class="choices"></div>
+  </div>
+  <div id="feedback" class="feedback"></div>
+  <div id="result" class="final-score"></div>
+  <button onclick="window.location.href='index.html'">Retour au menu</button>
+  <div style="margin-top: 20px; font-style: italic;">par Dredji</div>
+
+  <script>
+    const phrases = [{'texte': 'Au commencement, Dieu créa ______.', 'choix': ['le ciel et la terre', 'les animaux', "l'homme"], 'correct': 'le ciel et la terre'}, {'texte': 'Tu ne convoiteras point ______.', 'choix': ['la gloire', 'la maison de ton prochain', 'le pain des anges'], 'correct': 'la maison de ton prochain'}, {'texte': 'Jéhovah est mon berger, ______.', 'choix': ['je ne manquerai de rien', "il m'abandonne jamais", 'il me guide dans les montagnes'], 'correct': 'je ne manquerai de rien'}];
+
+    let current = 0;
+    let score = 0;
+    let used = [];
+
+    function nextRandom() {
+      if (used.length === phrases.length) {
+        return null;
+      }
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * phrases.length);
+      } while (used.includes(idx));
+      used.push(idx);
+      return phrases[idx];
+    }
+
+    function showQuestion() {
+      const q = nextRandom();
+      if (!q) {
+        showFinal();
+        return;
+      }
+      document.getElementById('question').innerText = q.texte;
+      const choices = document.getElementById('choices');
+      choices.innerHTML = '';
+      q.choix.forEach(ans => {
+        const btn = document.createElement('button');
+        btn.innerText = ans;
+        btn.onclick = () => checkAnswer(ans, q.correct);
+        choices.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      const feedback = document.getElementById('feedback');
+      if (selected === correct) {
+        feedback.innerText = "Bonne réponse ! 🎉";
+        feedback.className = "feedback feedback-good";
+        score++;
+      } else {
+        feedback.innerText = "Mauvaise réponse. La bonne réponse était : " + correct;
+        feedback.className = "feedback feedback-bad";
+      }
+      setTimeout(() => {
+        feedback.innerText = "";
+        showQuestion();
+      }, 2000);
+    }
+
+    function showFinal() {
+      document.getElementById('quiz-box').style.display = 'none';
+      document.getElementById('result').innerText = `✅ Quiz terminé ! Score : ${score}/${phrases.length}`;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>

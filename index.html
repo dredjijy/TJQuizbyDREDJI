@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz TJ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #800000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 { margin-bottom: 20px; }
+    button {
+      padding: 15px 25px;
+      font-size: 18px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      background-color: white;
+      color: #800000;
+      cursor: pointer;
+    }
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      font-style: italic;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+    .feedback-link {
+      margin-top: 50px;
+      font-size: 0.9em;
+    }
+    .feedback-link a { color: #D1BFA9; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Quiz Biblique TJ</h1>
+  <button onclick="location.href='quiz-biblique.html'">Mode Normal</button>
+  <button onclick="location.href='quiz-biblique-500.html'">Mode Vitesse</button>
+  <button onclick="location.href='quiz-completion.html'">Complète la phrase</button>
+  <div class="feedback-link">
+    Tu as une suggestion ? <a href="https://forms.gle/TON_LINK_ICI" target="_blank">Donne ton avis</a>
+  </div>
+  <div class="footer">par Dredji</div>
+</body>
+</html>
